@@ -17,41 +17,60 @@ struct Todo: Codable, Equatable {
     var isToday: Bool
     
     mutating func update(isDone: Bool, detail: String, isToday: Bool) {
-        // TODO: update 로직 추가
-        
+        // [x] TODO: update 로직 추가
+        self.isDone = isDone
+        self.detail = detail
+        self.isToday = isToday
     }
     
     static func == (lhs: Self, rhs: Self) -> Bool {
-        // TODO: 동등 조건 추가
-        return true
+        // [x]TODO: 동등 조건 추가
+        return lhs.id == rhs.id
     }
 }
 
 class TodoManager {
     
-    static let shared = TodoManager()
+    static let shared = TodoManager()   // making a singleton object
     
     static var lastId: Int = 0
     
     var todos: [Todo] = []
     
     func createTodo(detail: String, isToday: Bool) -> Todo {
-        //TODO: create로직 추가
-        return Todo(id: 1, isDone: false, detail: "2", isToday: true)
+        // [x] TODO: create로직 추가
+        
+        let nextId = TodoManager.lastId + 1
+        TodoManager.lastId = nextId
+        return Todo(id: nextId, isDone: false, detail: detail, isToday: isToday)
     }
     
     func addTodo(_ todo: Todo) {
-        //TODO: add로직 추가
+        // [x] TODO: add로직 추가
+        todos.append(todo)
+        saveTodo()
     }
     
     func deleteTodo(_ todo: Todo) {
-        //TODO: delete 로직 추가
+        // [x] TODO: delete 로직 추가
         
+//        if let index = todos.firstIndex(of: todo) {
+//            todos.remove(at: index)
+//        }
+//
+//        todos = todos.filter { existingTodo in
+//            return existingTodo.id != todo.id
+//        }
+        
+        todos = todos.filter { $0.id != todo.id }
+        saveTodo()
     }
     
     func updateTodo(_ todo: Todo) {
-        //TODO: updatee 로직 추가
-        
+        // [x] TODO: updatee 로직 추가
+        guard let index = todos.firstIndex(of: todo) else { return }
+        todos[index].update(isDone: todo.isDone, detail: todo.detail, isToday: todo.isToday)
+        saveTodo()
     }
     
     func saveTodo() {
