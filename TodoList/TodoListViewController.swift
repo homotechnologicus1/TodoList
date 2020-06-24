@@ -29,11 +29,22 @@ class TodoListViewController: UIViewController {
         
         // [x] TODO: 데이터 불러오기
         todoListViewModel.loadTasks()
+        
+        
+//        let todo = TodoManager.shared.createTodo(detail: "👍 🚀 Corona 난리", isToday: true)
+//        Storage.saveTodo(todo, fileName: "test.json")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        let todo = Storage.restoreTodo("test.json")
+//        print("---> restored from disk: \(todo)")
     }
     
     @IBAction func isTodayButtonTapped(_ sender: Any) {
-        // TODO: 투데이 버튼 토글 작업
-        
+        // [x] TODO: 투데이 버튼 토글 작업
+        isTodayButton.isSelected = !isTodayButton.isSelected
     }
     
     @IBAction func addTaskButtonTapped(_ sender: Any) {
@@ -139,7 +150,7 @@ class TodoListCell: UICollectionViewCell {
     }
     
     func updateUI(todo: Todo) {
-        // TODO: 셀 업데이트 하기
+        // [x] TODO: 셀 업데이트 하기
         checkButton.isSelected = todo.isDone
         descriptionLabel.text = todo.detail
         descriptionLabel.alpha = todo.isDone ? 0.2 : 1
@@ -156,18 +167,24 @@ class TodoListCell: UICollectionViewCell {
     }
     
     func reset() {
-        // TODO: reset로직 구현
-        
+        // [x] TODO: reset로직 구현
+        descriptionLabel.alpha = 1
+        deleteButton.isHidden = true
+        showStrikeThrough(false)
     }
     
     @IBAction func checkButtonTapped(_ sender: Any) {
-        // TODO: checkButton 처리
-        
-
+        // [x] TODO: checkButton 처리
+        checkButton.isSelected = !checkButton.isSelected
+        let isDone = checkButton.isSelected
+        showStrikeThrough(isDone)
+        descriptionLabel.alpha = isDone ? 0.2 : 1
+        deleteButton.isHidden = !isDone
+        doneButtonTapHandler?(isDone)
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        // TODO: deleteButton 처리 
+        // [x] TODO: deleteButton 처리 
         deleteButtonTapHandler?()
     }
 }
